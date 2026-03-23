@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TIPTOP — Premium Furniture & Decor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #0f0f0d;
+  --white: #fdfaf5;
+  --cream: #f0ead8;
+  --gold: #c8a96e;
+  --gold-light: #e2c99a;
+  --warm-gray: #8a8480;
+  --dark-gray: #1e1c18;
+  --serif: 'Cormorant Garamond', serif;
+  --sans: 'DM Sans', sans-serif;
+  --nav-h: 80px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{font-family:var(--sans);background:var(--white);color:var(--black);overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+img{display:block;width:100%;height:100%;object-fit:cover;}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--cream);}
+::-webkit-scrollbar-thumb{background:var(--gold);}
+
+/* ─── NAV ─── */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:var(--nav-h);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 3.5rem;
+  background:rgba(253,250,245,0.88);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(200,169,110,0.18);
+  transition:all 0.4s ease;
+}
+.nav.scrolled{background:rgba(253,250,245,0.97);box-shadow:0 1px 30px rgba(0,0,0,0.06);}
+
+.nav-left{display:flex;align-items:center;gap:3rem;}
+.logo{
+  font-family:var(--serif);font-size:1.7rem;font-weight:400;
+  letter-spacing:0.28em;text-transform:uppercase;color:var(--black);
+}
+.logo span{color:var(--gold);}
+
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{
+  font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;
+  font-weight:500;color:var(--warm-gray);
+  position:relative;padding-bottom:3px;transition:color 0.3s;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:0;left:0;right:100%;height:1px;
+  background:var(--gold);transition:right 0.35s ease;
+}
+.nav-links a:hover{color:var(--black);}
+.nav-links a:hover::after{right:0;}
+
+.nav-right{display:flex;align-items:center;gap:1.2rem;}
+.nav-icon-btn{
+  width:40px;height:40px;border-radius:50%;border:none;background:transparent;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:background 0.25s;color:var(--black);
+}
+.nav-icon-btn:hover{background:rgba(0,0,0,0.06);}
+.nav-icon-btn svg{width:18px;height:18px;stroke-width:1.5;}
+
+.cart-badge{
+  position:relative;
+}
+.cart-dot{
+  position:absolute;top:-2px;right:-2px;width:14px;height:14px;
+  background:var(--gold);border-radius:50%;
+  font-size:8px;font-weight:700;color:var(--white);
+  display:flex;align-items:center;justify-content:center;
+}
+
+.nav-menu-btn{display:none;}
+
+/* Search overlay */
+.search-overlay{
+  position:fixed;inset:0;z-index:300;background:rgba(15,15,13,0.92);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity 0.35s;
+}
+.search-overlay.active{opacity:1;pointer-events:all;}
+.search-inner{width:min(680px,90vw);position:relative;}
+.search-input{
+  width:100%;background:transparent;border:none;border-bottom:1px solid rgba(200,169,110,0.5);
+  font-family:var(--serif);font-size:2.5rem;color:var(--white);padding:0.8rem 0;
+  outline:none;
+}
+.search-input::placeholder{color:rgba(255,255,255,0.3);}
+.search-close{
+  position:absolute;right:0;top:50%;transform:translateY(-50%);
+  background:none;border:none;color:rgba(255,255,255,0.5);cursor:pointer;font-size:1.2rem;
+}
+.search-tags{display:flex;gap:0.8rem;margin-top:1.5rem;flex-wrap:wrap;}
+.search-tag{
+  padding:0.35rem 1rem;border:1px solid rgba(200,169,110,0.3);
+  font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:rgba(255,255,255,0.5);cursor:pointer;border-radius:2px;
+  transition:border-color 0.25s,color 0.25s;
+}
+.search-tag:hover{border-color:var(--gold);color:var(--gold-light);}
+
+/* Mobile Menu */
+.mob-menu{
+  position:fixed;inset:0;z-index:210;background:var(--black);
+  display:flex;flex-direction:column;padding:2rem 3rem;
+  transform:translateX(100%);transition:transform 0.45s cubic-bezier(0.77,0,0.175,1);
+}
+.mob-menu.open{transform:translateX(0);}
+.mob-menu-close{
+  align-self:flex-end;background:none;border:none;color:var(--white);
+  cursor:pointer;margin-bottom:3rem;
+}
+.mob-menu-close svg{width:24px;height:24px;}
+.mob-nav-links{display:flex;flex-direction:column;gap:2rem;}
+.mob-nav-links a{
+  font-family:var(--serif);font-size:3.5rem;font-weight:300;color:var(--white);
+  letter-spacing:-0.01em;transition:color 0.3s;
+}
+.mob-nav-links a:hover{color:var(--gold);}
+
+/* ─── WAVE HERO ─── */
+.hero{
+  position:relative;height:100vh;min-height:700px;overflow:hidden;
+  background:var(--dark-gray);
+}
+
+/* Slider */
+.slides{position:absolute;inset:0;display:flex;}
+.slide{
+  position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease;
+}
+.slide.active{opacity:1;}
+.slide img{position:absolute;inset:0;object-fit:cover;width:100%;height:100%;}
+.slide-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(15,15,13,0.72) 0%,rgba(15,15,13,0.3) 60%,transparent 100%);
+}
+
+/* Wave SVG at bottom */
+.hero-wave{
+  position:absolute;bottom:-2px;left:0;right:0;z-index:10;
+  line-height:0;
+}
+.hero-wave svg{width:100%;height:80px;display:block;}
+
+/* Slide text */
+.slide-content{
+  position:absolute;z-index:5;top:50%;left:8%;transform:translateY(-50%);
+  max-width:560px;
+}
+.slide-eyebrow{
+  font-size:0.6rem;letter-spacing:0.4em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1.2rem;display:flex;align-items:center;gap:0.8rem;
+}
+.slide-eyebrow::before{content:'';display:block;width:32px;height:1px;background:var(--gold);}
+.slide-headline{
+  font-family:var(--serif);font-size:clamp(2.8rem,5vw,5.5rem);
+  font-weight:300;line-height:1.05;color:var(--white);
+  margin-bottom:1.2rem;
+  opacity:0;transform:translateY(24px);
+  transition:opacity 0.8s ease 0.2s,transform 0.8s ease 0.2s;
+}
+.slide.active .slide-headline{opacity:1;transform:translateY(0);}
+.slide-sub{
+  font-size:0.95rem;color:rgba(255,255,255,0.6);
+  line-height:1.8;max-width:400px;margin-bottom:2.5rem;
+  opacity:0;transition:opacity 0.8s ease 0.4s;
+}
+.slide.active .slide-sub{opacity:1;}
+.btn-hero{
+  display:inline-flex;align-items:center;gap:0.8rem;
+  background:var(--gold);color:var(--black);
+  padding:0.9rem 2.2rem;
+  font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;font-weight:500;
+  border:none;cursor:pointer;transition:background 0.3s,gap 0.3s;
+  opacity:0;transition:opacity 0.8s ease 0.6s, background 0.3s;
+}
+.slide.active .btn-hero{opacity:1;}
+.btn-hero:hover{background:var(--gold-light);gap:1.2rem;}
+
+/* Slider controls */
+.slider-dots{
+  position:absolute;bottom:100px;left:8%;z-index:10;
+  display:flex;align-items:center;gap:1rem;
+}
+.slider-dot{
+  height:3px;background:rgba(255,255,255,0.3);cursor:pointer;
+  transition:all 0.4s;border-radius:2px;width:24px;
+}
+.slider-dot.active{width:48px;background:var(--gold);}
+.slide-counter{
+  position:absolute;bottom:95px;right:8%;z-index:10;
+  font-size:0.65rem;letter-spacing:0.25em;color:rgba(255,255,255,0.4);
+}
+
+/* Arrow buttons */
+.slide-arrow{
+  position:absolute;top:50%;z-index:10;transform:translateY(-50%);
+  width:48px;height:48px;border-radius:50%;
+  background:rgba(255,255,255,0.1);backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,0.15);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:background 0.3s;color:white;
+}
+.slide-arrow:hover{background:rgba(200,169,110,0.3);}
+.slide-arrow svg{width:18px;height:18px;}
+.slide-arrow.prev{left:3%;}
+.slide-arrow.next{right:3%;}
+
+/* ─── CATEGORY SECTIONS ─── */
+.categories{display:flex;flex-direction:column;gap:0;}
+.cat-card{
+  position:relative;width:100%;height:92vh;min-height:520px;
+  overflow:hidden;cursor:pointer;display:flex;align-items:flex-end;
+}
+.cat-img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  transform:scale(1);transition:transform 1.2s ease,filter 0.6s ease;
+  filter:brightness(0.68);z-index:0;
+}
+.cat-card:hover .cat-img{transform:scale(1.06);filter:brightness(0.45);}
+.cat-card-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(to top,rgba(8,8,6,0.9) 0%,rgba(8,8,6,0.15) 45%,transparent 100%);
+}
+.cat-card-body{
+  position:relative;z-index:2;
+  padding:3.5rem 8%;width:100%;
+  display:flex;align-items:flex-end;justify-content:space-between;
+}
+.cat-number{
+  font-family:var(--serif);font-size:1.1rem;color:var(--gold);
+  font-style:italic;margin-bottom:0.8rem;display:block;
+}
+.cat-title{
+  font-family:var(--serif);font-size:clamp(3rem,6vw,5.5rem);font-weight:300;
+  color:var(--white);line-height:1.0;
+}
+.cat-link{
+  display:inline-flex;align-items:center;gap:0.6rem;
+  font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;
+  color:rgba(255,255,255,0.45);transition:color 0.3s,gap 0.3s;
+  padding-bottom:0.3rem;border-bottom:1px solid rgba(255,255,255,0.2);
+  white-space:nowrap;margin-bottom:0.8rem;align-self:flex-end;
+}
+.cat-card:hover .cat-link{color:var(--gold);gap:1rem;border-bottom-color:var(--gold);}
+.cat-divider{display:none;}
+
+/* ─── INTRO / MARQUEE ─── */
+.marquee-bar{
+  background:var(--black);padding:1.2rem 0;overflow:hidden;
+  border-top:1px solid rgba(200,169,110,0.15);
+  border-bottom:1px solid rgba(200,169,110,0.15);
+}
+.marquee-track{
+  display:flex;gap:4rem;white-space:nowrap;
+  animation:marquee 22s linear infinite;
+}
+.marquee-track:hover{animation-play-state:paused;}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.marquee-item{
+  font-family:var(--serif);font-size:1.1rem;font-style:italic;
+  color:rgba(200,169,110,0.45);letter-spacing:0.05em;flex-shrink:0;
+}
+.marquee-sep{color:rgba(200,169,110,0.25);margin:0 1rem;}
+
+/* ─── WHY US ─── */
+.why{
+  padding:7rem 8%;background:var(--white);
+  display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;
+}
+.why-img-wrap{
+  position:relative;aspect-ratio:4/5;overflow:hidden;border-radius:2px;
+}
+.why-img-wrap img{object-fit:cover;}
+.why-accent{
+  position:absolute;bottom:-1.5rem;right:-1.5rem;
+  width:45%;aspect-ratio:1;border:1px solid rgba(200,169,110,0.35);
+  border-radius:50%;pointer-events:none;
+}
+.why-eyebrow{
+  font-size:0.6rem;letter-spacing:0.4em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1.2rem;display:flex;align-items:center;gap:0.8rem;
+}
+.why-eyebrow::before{content:'';display:block;width:32px;height:1px;background:var(--gold);}
+.why-title{
+  font-family:var(--serif);font-size:clamp(2rem,3vw,3.2rem);font-weight:300;
+  line-height:1.15;color:var(--black);margin-bottom:1.5rem;
+}
+.why-body{font-size:0.95rem;color:var(--warm-gray);line-height:1.9;margin-bottom:2.5rem;}
+.why-stats{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:3rem;}
+.why-stat-num{
+  font-family:var(--serif);font-size:2.2rem;color:var(--gold);font-weight:300;
+  display:block;line-height:1;margin-bottom:0.3rem;
+}
+.why-stat-label{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--warm-gray);}
+.btn-dark{
+  display:inline-flex;align-items:center;gap:0.8rem;
+  background:var(--black);color:var(--white);
+  padding:0.95rem 2.4rem;
+  font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;font-weight:500;
+  border:none;cursor:pointer;border-radius:2px;transition:background 0.3s,gap 0.3s;
+}
+.btn-dark:hover{background:var(--dark-gray);gap:1.2rem;}
+
+/* ─── FEATURES STRIP ─── */
+.features{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  background:var(--dark-gray);
+  border-top:1px solid rgba(200,169,110,0.12);
+  border-bottom:1px solid rgba(200,169,110,0.12);
+}
+.feat{
+  padding:2.5rem 2rem;border-right:1px solid rgba(200,169,110,0.12);
+  text-align:center;
+}
+.feat:last-child{border-right:none;}
+.feat-icon{
+  width:40px;height:40px;border-radius:50%;background:rgba(200,169,110,0.12);
+  display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;
+}
+.feat-icon svg{width:18px;height:18px;color:var(--gold);stroke:var(--gold);}
+.feat-title{font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--white);margin-bottom:0.5rem;font-weight:500;}
+.feat-desc{font-size:0.8rem;color:rgba(255,255,255,0.4);line-height:1.7;}
+
+/* ─── BESTSELLERS ─── */
+.bestsellers{
+  padding:7rem 8%;background:var(--cream);
+}
+.section-header{
+  display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:4rem;
+}
+.section-eyebrow{
+  font-size:0.6rem;letter-spacing:0.4em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:0.8rem;
+}
+.section-eyebrow::before{content:'';display:block;width:32px;height:1px;background:var(--gold);}
+.section-title{
+  font-family:var(--serif);font-size:clamp(1.8rem,2.5vw,2.8rem);font-weight:300;
+  color:var(--black);line-height:1.15;
+}
+.view-all{
+  font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--warm-gray);display:flex;align-items:center;gap:0.5rem;
+  padding-bottom:3px;border-bottom:1px solid currentColor;
+  transition:color 0.3s;
+}
+.view-all:hover{color:var(--gold);}
+
+.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem;}
+.prod-card{cursor:pointer;}
+.prod-img-wrap{
+  position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--white);
+  margin-bottom:1.2rem;
+}
+.prod-img-wrap img{transition:transform 0.8s ease,opacity 0.5s ease;}
+.prod-img-back{
+  position:absolute;inset:0;opacity:0;
+  transition:opacity 0.6s ease;
+}
+.prod-card:hover .prod-img-back{opacity:1;}
+.prod-card:hover .prod-img-wrap img:first-child{transform:scale(1.05);}
+.prod-badge{
+  position:absolute;top:1rem;left:1rem;z-index:2;
+  background:var(--black);color:var(--white);
+  font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;
+  padding:0.3rem 0.7rem;
+}
+.prod-badge.gold{background:var(--gold);color:var(--black);}
+.prod-add{
+  position:absolute;top:1rem;right:1rem;z-index:2;
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,0.95);border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:translateY(-4px);
+  transition:opacity 0.3s,transform 0.3s;
+}
+.prod-add svg{width:16px;height:16px;}
+.prod-card:hover .prod-add{opacity:1;transform:translateY(0);}
+.prod-mat{
+  position:absolute;bottom:1rem;left:1rem;z-index:2;
+  background:rgba(255,255,255,0.92);backdrop-filter:blur(4px);
+  font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;
+  padding:0.3rem 0.6rem;color:var(--dark-gray);
+}
+.prod-name{font-family:var(--serif);font-size:1.1rem;color:var(--black);margin-bottom:0.3rem;}
+.prod-cat{font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:0.5rem;}
+.prod-price{font-family:var(--serif);font-size:1.1rem;color:var(--gold);}
+.prod-footer{display:flex;align-items:flex-end;justify-content:space-between;}
+
+/* ─── ANATOMY / SHOWCASE ─── */
+.showcase{
+  padding:7rem 8%;background:var(--dark-gray);
+  display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;
+}
+.showcase-eyebrow{
+  font-size:0.6rem;letter-spacing:0.4em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1.2rem;display:flex;align-items:center;gap:0.8rem;
+}
+.showcase-eyebrow::before{content:'';display:block;width:32px;height:1px;background:var(--gold);}
+.showcase-title{
+  font-family:var(--serif);font-size:clamp(2rem,3vw,3.2rem);font-weight:300;
+  color:var(--white);line-height:1.15;margin-bottom:1.5rem;
+}
+.showcase-body{font-size:0.9rem;color:rgba(255,255,255,0.5);line-height:1.9;margin-bottom:3rem;}
+.hot-list{display:flex;flex-direction:column;gap:0;}
+.hot-item{
+  padding:1.5rem 1.5rem;border-left:2px solid rgba(200,169,110,0.18);
+  cursor:pointer;transition:all 0.3s;
+}
+.hot-item:hover,.hot-item.active{border-left-color:var(--gold);background:rgba(200,169,110,0.05);}
+.hot-item-title{font-size:0.8rem;font-weight:500;letter-spacing:0.1em;color:rgba(255,255,255,0.8);margin-bottom:0.4rem;}
+.hot-item-desc{font-size:0.8rem;color:rgba(255,255,255,0.35);line-height:1.6;}
+
+.showcase-img{
+  position:relative;aspect-ratio:1;
+  border:1px solid rgba(200,169,110,0.12);border-radius:2px;
+  overflow:hidden;
+}
+.showcase-img img{object-fit:cover;}
+.hotspot-btn{
+  position:absolute;width:32px;height:32px;border-radius:50%;
+  background:rgba(200,169,110,0.3);border:2px solid var(--gold);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:0.65rem;font-weight:700;color:var(--white);
+  transition:all 0.3s;
+  animation:pulse-gold 2.5s infinite;
+}
+@keyframes pulse-gold{
+  0%,100%{box-shadow:0 0 0 0 rgba(200,169,110,0.4);}
+  50%{box-shadow:0 0 0 10px rgba(200,169,110,0);}
+}
+.hotspot-btn:hover,.hotspot-btn.active{background:var(--gold);transform:scale(1.15);}
+
+/* ─── GALLERY / LOOKBOOK ─── */
+.lookbook{padding:7rem 8%;background:var(--white);}
+.look-grid{
+  display:grid;
+  grid-template-columns:1.6fr 1fr 1fr;
+  grid-template-rows:260px 260px;
+  gap:1.5rem;margin-top:3.5rem;
+}
+.look-card{
+  position:relative;overflow:hidden;cursor:pointer;border-radius:2px;
+}
+.look-card:first-child{grid-row:1/3;}
+.look-card img{transition:transform 0.9s ease;}
+.look-card:hover img{transform:scale(1.08);}
+.look-card-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(15,15,13,0.7) 0%,transparent 55%);
+  opacity:0;transition:opacity 0.4s;
+}
+.look-card:hover .look-card-overlay{opacity:1;}
+.look-card-label{
+  position:absolute;bottom:1.5rem;left:1.5rem;right:1.5rem;
+  font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;
+  color:rgba(255,255,255,0.85);display:flex;align-items:center;gap:0.5rem;
+}
+.look-card-label::before{content:'+';color:var(--gold);font-size:1rem;}
+
+/* ─── FOOTER ─── */
+.footer{
+  background:var(--black);padding:5rem 8%;
+  border-top:1px solid rgba(200,169,110,0.12);
+}
+.footer-top{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:4rem;margin-bottom:4rem;
+}
+.footer-logo{
+  font-family:var(--serif);font-size:2rem;letter-spacing:0.2em;
+  text-transform:uppercase;color:rgba(255,255,255,0.8);margin-bottom:1.2rem;
+}
+.footer-logo span{color:var(--gold);}
+.footer-tagline{font-size:0.85rem;color:rgba(255,255,255,0.35);line-height:1.8;max-width:280px;margin-bottom:1.5rem;}
+.footer-socials{display:flex;gap:0.8rem;}
+.footer-social{
+  width:36px;height:36px;border-radius:50%;
+  border:1px solid rgba(200,169,110,0.25);
+  display:flex;align-items:center;justify-content:center;
+  color:rgba(255,255,255,0.4);transition:all 0.3s;font-size:0.75rem;letter-spacing:0.05em;
+}
+.footer-social:hover{border-color:var(--gold);color:var(--gold);}
+.footer-col-title{
+  font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1.5rem;font-weight:500;
+}
+.footer-links{display:flex;flex-direction:column;gap:0.8rem;list-style:none;}
+.footer-links a{
+  font-size:0.85rem;color:rgba(255,255,255,0.4);transition:color 0.3s;
+}
+.footer-links a:hover{color:rgba(255,255,255,0.85);}
+.footer-newsletter-desc{font-size:0.85rem;color:rgba(255,255,255,0.35);margin-bottom:1rem;line-height:1.7;}
+.footer-form{display:flex;gap:0;}
+.footer-input{
+  flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(200,169,110,0.2);
+  border-right:none;padding:0.75rem 1rem;
+  color:var(--white);font-size:0.85rem;font-family:var(--sans);outline:none;
+}
+.footer-input::placeholder{color:rgba(255,255,255,0.25);}
+.footer-submit{
+  padding:0.75rem 1.2rem;background:var(--gold);border:none;cursor:pointer;
+  color:var(--black);transition:background 0.3s;
+}
+.footer-submit:hover{background:var(--gold-light);}
+.footer-submit svg{width:18px;height:18px;}
+.footer-bottom{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-top:2rem;border-top:1px solid rgba(255,255,255,0.07);
+}
+.footer-copy{font-size:0.65rem;letter-spacing:0.1em;color:rgba(255,255,255,0.25);}
+.footer-legal{display:flex;gap:2rem;list-style:none;}
+.footer-legal a{font-size:0.65rem;letter-spacing:0.1em;color:rgba(255,255,255,0.25);transition:color 0.3s;}
+.footer-legal a:hover{color:rgba(255,255,255,0.6);}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  .nav-links,.nav{padding:0 2rem;}
+  .cat-card{height:60vh;min-height:380px;}
+  .cat-card-body{padding:2.5rem 6%;}
+  .why{grid-template-columns:1fr;gap:3rem;}
+  .features{grid-template-columns:repeat(2,1fr);}
+  .bestsellers{padding:5rem 6%;}
+  .prod-grid{grid-template-columns:1fr 1fr;gap:1.5rem;}
+  .showcase{grid-template-columns:1fr;gap:3rem;padding:5rem 6%;}
+  .look-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto;}
+  .look-card:first-child{grid-row:auto;grid-column:1/3;}
+  .footer-top{grid-template-columns:1fr 1fr;gap:2rem;}
+}
+@media(max-width:600px){
+  :root{--nav-h:64px;}
+  .nav{padding:0 1.5rem;}
+  .nav-links{display:none;}
+  .nav-menu-btn{display:flex;}
+  .slide-content{left:6%;max-width:90%;}
+  .cat-card{height:55vh;min-height:300px;}
+  .cat-card-body{padding:2rem 5%;flex-direction:column;align-items:flex-start;gap:0.8rem;}
+  .why{padding:5rem 6%;}
+  .bestsellers{padding:5rem 5%;}
+  .prod-grid{grid-template-columns:1fr;gap:2rem;}
+  .showcase{padding:4rem 5%;}
+  .lookbook{padding:4rem 5%;}
+  .look-grid{grid-template-columns:1fr;grid-template-rows:auto;}
+  .look-card:first-child{grid-column:auto;}
+  .features{grid-template-columns:1fr 1fr;}
+  .footer{padding:4rem 5%;}
+  .footer-top{grid-template-columns:1fr;}
+  .footer-bottom{flex-direction:column;gap:1rem;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ SEARCH OVERLAY ══════════════════ -->
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-inner">
+    <input class="search-input" id="searchInput" placeholder="What are you looking for?" type="text" autofocus>
+    <button class="search-close" onclick="closeSearch()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="24" height="24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="search-tags">
+      <span class="search-tag">Lazy Boys</span>
+      <span class="search-tag">Office Chairs</span>
+      <span class="search-tag">Sofas</span>
+      <span class="search-tag">Artificial Plants</span>
+      <span class="search-tag">Desks</span>
+      <span class="search-tag">New Arrivals</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ MOBILE MENU ══════════════════ -->
+<div class="mob-menu" id="mobMenu">
+  <button class="mob-menu-close" onclick="closeMobMenu()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <nav class="mob-nav-links">
+    <a href="#categories" onclick="closeMobMenu()">Furniture &amp; Decor</a>
+    <a href="#bestsellers" onclick="closeMobMenu()">Collection</a>
+    <a href="#showcase" onclick="closeMobMenu()">Craftsmanship</a>
+    <a href="#about" onclick="closeMobMenu()">About</a>
+    <a href="#contact" onclick="closeMobMenu()">Contact</a>
+  </nav>
+</div>
+
+<!-- ══════════════════ NAV ══════════════════ -->
+<nav class="nav" id="mainNav">
+  <div class="nav-left">
+    <a class="logo" href="#">TIP<span>·</span>TOP</a>
+    <ul class="nav-links">
+      <li><a href="#categories">Furniture &amp; Decor</a></li>
+      <li><a href="#bestsellers">Collection</a></li>
+      <li><a href="#showcase">Craftsmanship</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <!-- Search -->
+    <button class="nav-icon-btn" onclick="openSearch()" aria-label="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+    <!-- Cart -->
+    <div class="cart-badge">
+      <button class="nav-icon-btn" aria-label="Cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      </button>
+      <span class="cart-dot">0</span>
+    </div>
+    <!-- Mobile hamburger -->
+    <button class="nav-icon-btn nav-menu-btn" onclick="openMobMenu()" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ══════════════════ HERO SLIDER ══════════════════ -->
+<section class="hero" id="hero">
+
+  <!-- Slides -->
+  <div class="slides">
+
+    <div class="slide active" id="slide-0">
+      <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&q=80&w=2000" alt="Home Furniture" referrerpolicy="no-referrer">
+      <div class="slide-overlay"></div>
+      <div class="slide-content">
+        <div class="slide-eyebrow">Furniture &amp; Decor — 2026</div>
+        <h1 class="slide-headline">Home<br>Furniture</h1>
+        <p class="slide-sub">Elegant solutions for every room. Redefining comfort for the modern home with timeless craftsmanship.</p>
+        <a href="#categories" class="btn-hero">
+          Explore Collection
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="slide" id="slide-1">
+      <img src="https://images.unsplash.com/photo-1505797149-43b0069ec26b?auto=format&fit=crop&q=80&w=2000" alt="Office Furniture" referrerpolicy="no-referrer">
+      <div class="slide-overlay"></div>
+      <div class="slide-content">
+        <div class="slide-eyebrow">Workspace Essentials — Cairo &amp; Beyond</div>
+        <h1 class="slide-headline">Office<br>Furniture</h1>
+        <p class="slide-sub">Productivity meets sophisticated design. Premium ergonomic seating engineered for your best work.</p>
+        <a href="#categories" class="btn-hero">
+          Shop Office
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="slide" id="slide-2">
+      <img src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&q=80&w=2000" alt="Artificial Plants" referrerpolicy="no-referrer">
+      <div class="slide-overlay"></div>
+      <div class="slide-content">
+        <div class="slide-eyebrow">Botanical Accents — Always Evergreen</div>
+        <h1 class="slide-headline">Artificial<br>Plants</h1>
+        <p class="slide-sub">Evergreen beauty without the maintenance. The perfect botanical accent for any decor style.</p>
+        <a href="#categories" class="btn-hero">
+          Shop Decor
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Wave -->
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,40 C200,80 400,0 600,40 C800,80 1000,0 1200,40 C1320,65 1380,30 1440,40 L1440,80 L0,80 Z" fill="#f0ead8"/>
+    </svg>
+  </div>
+
+  <!-- Dots -->
+  <div class="slider-dots">
+    <div class="slider-dot active" data-idx="0" onclick="goSlide(0)"></div>
+    <div class="slider-dot" data-idx="1" onclick="goSlide(1)"></div>
+    <div class="slider-dot" data-idx="2" onclick="goSlide(2)"></div>
+  </div>
+  <div class="slide-counter" id="slideCounter">01 / 03</div>
+
+
+</section>
+
+<!-- ══════════════════ MARQUEE ══════════════════ -->
+<div class="marquee-bar">
+  <div class="marquee-track">
+    <span class="marquee-item">Premium Craftsmanship</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Home Furniture</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Office Seating</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Artificial Plants</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Nordic Design</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Ergonomic Comfort</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Est. 1980 · Cairo</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Premium Craftsmanship</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Home Furniture</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Office Seating</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Artificial Plants</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Nordic Design</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Ergonomic Comfort</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Est. 1980 · Cairo</span><span class="marquee-sep">✦</span>
+  </div>
+</div>
+
+<!-- ══════════════════ CATEGORY CARDS ══════════════════ -->
+<section class="categories" id="categories">
+
+  <div class="cat-card" onclick="location.href='#home-furniture'">
+    <img class="cat-img" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&q=80&w=2000" alt="Home Furniture" referrerpolicy="no-referrer">
+    <div class="cat-card-overlay"></div>
+    <div class="cat-card-body">
+      <div>
+        <span class="cat-number">01</span>
+        <h2 class="cat-title">Home<br>Furniture</h2>
+      </div>
+      <span class="cat-link">
+        Explore
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </span>
+    </div>
+  </div>
+
+  <div class="cat-card" onclick="location.href='#office-furniture'">
+    <img class="cat-img" src="https://images.unsplash.com/photo-1505797149-43b0069ec26b?auto=format&fit=crop&q=80&w=2000" alt="Office Furniture" referrerpolicy="no-referrer">
+    <div class="cat-card-overlay"></div>
+    <div class="cat-card-body">
+      <div>
+        <span class="cat-number">02</span>
+        <h2 class="cat-title">Office<br>Furniture</h2>
+      </div>
+      <span class="cat-link">
+        Explore
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </span>
+    </div>
+  </div>
+
+  <div class="cat-card" onclick="location.href='#artificial-plants'">
+    <img class="cat-img" src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&q=80&w=2000" alt="Artificial Plants" referrerpolicy="no-referrer">
+    <div class="cat-card-overlay"></div>
+    <div class="cat-card-body">
+      <div>
+        <span class="cat-number">03</span>
+        <h2 class="cat-title">Artificial<br>Plants</h2>
+      </div>
+      <span class="cat-link">
+        Explore
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </span>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════════════════ FEATURES STRIP ══════════════════ -->
+<div class="features">
+  <div class="feat">
+    <div class="feat-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    </div>
+    <div class="feat-title">Quality Assured</div>
+    <div class="feat-desc">ISO-certified manufacturing standards on every piece.</div>
+  </div>
+  <div class="feat">
+    <div class="feat-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+    </div>
+    <div class="feat-title">White-Glove Delivery</div>
+    <div class="feat-desc">48-hour delivery with full installation service.</div>
+  </div>
+  <div class="feat">
+    <div class="feat-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </div>
+    <div class="feat-title">Showroom Experience</div>
+    <div class="feat-desc">Visit our Cairo flagship to feel every detail.</div>
+  </div>
+  <div class="feat">
+    <div class="feat-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+    </div>
+    <div class="feat-title">25-Year Warranty</div>
+    <div class="feat-desc">Our commitment to lasting quality and your peace of mind.</div>
+  </div>
+</div>
+
+<!-- ══════════════════ WHY US / ABOUT ══════════════════ -->
+<section class="why" id="about">
+  <div class="why-img-wrap">
+    <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&q=80&w=1200" alt="About TipTop" referrerpolicy="no-referrer">
+    <div class="why-accent"></div>
+  </div>
+  <div>
+    <div class="why-eyebrow">Our Story — Since 1980</div>
+    <h2 class="why-title">A Legacy of<br>Refined Living</h2>
+    <p class="why-body">
+      Our story began in a small Cairo workshop over four decades ago. What started as a family craft has grown into a trusted name across Egypt and beyond — delivering furniture that blends timeless aesthetics with modern ergonomics. Every piece we create carries the weight of that history.
+    </p>
+    <div class="why-stats">
+      <div class="why-stat">
+        <span class="why-stat-num">12,000+</span>
+        <span class="why-stat-label">Pieces Delivered</span>
+      </div>
+      <div class="why-stat">
+        <span class="why-stat-num">98%</span>
+        <span class="why-stat-label">Customer Satisfaction</span>
+      </div>
+      <div class="why-stat">
+        <span class="why-stat-num">45+</span>
+        <span class="why-stat-label">Years of Craft</span>
+      </div>
+      <div class="why-stat">
+        <span class="why-stat-num">3</span>
+        <span class="why-stat-label">Showroom Locations</span>
+      </div>
+    </div>
+    <a href="#contact" class="btn-dark">
+      Visit a Showroom
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ══════════════════ BESTSELLERS ══════════════════ -->
+<section class="bestsellers" id="bestsellers">
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">Curated Picks</div>
+      <h2 class="section-title">Bestselling<br>Collection</h2>
+    </div>
+    <a href="#" class="view-all">
+      View All
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><polyline points="9 18 15 12 9 6"/></svg>
+    </a>
+  </div>
+
+  <div class="prod-grid">
+
+    <div class="prod-card">
+      <div class="prod-img-wrap">
+        <img src="https://images.unsplash.com/photo-1592078615290-033ee584e267?auto=format&fit=crop&q=80&w=800" alt="Executive Recliner" referrerpolicy="no-referrer">
+        <img class="prod-img-back" src="https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?auto=format&fit=crop&q=80&w=800" alt="Executive Recliner Hover" referrerpolicy="no-referrer">
+        <span class="prod-badge gold">Bestseller</span>
+        <button class="prod-add" aria-label="Add to cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        </button>
+        <span class="prod-mat">Leather</span>
+      </div>
+      <div class="prod-footer">
+        <div>
+          <div class="prod-cat">Lazy Boy</div>
+          <div class="prod-name">The Executive Recliner</div>
+        </div>
+        <div class="prod-price">EGP 12,499</div>
+      </div>
+    </div>
+
+    <div class="prod-card">
+      <div class="prod-img-wrap">
+        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&q=80&w=800" alt="Cloud Comfort Sofa" referrerpolicy="no-referrer">
+        <img class="prod-img-back" src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&q=80&w=800" alt="Cloud Comfort Sofa Hover" referrerpolicy="no-referrer">
+        <span class="prod-badge">New</span>
+        <button class="prod-add" aria-label="Add to cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        </button>
+        <span class="prod-mat">Fabric</span>
+      </div>
+      <div class="prod-footer">
+        <div>
+          <div class="prod-cat">Living Room</div>
+          <div class="prod-name">Cloud Comfort Sofa</div>
+        </div>
+        <div class="prod-price">EGP 8,299</div>
+      </div>
+    </div>
+
+    <div class="prod-card">
+      <div class="prod-img-wrap">
+        <img src="https://images.unsplash.com/photo-1505797149-43b0069ec26b?auto=format&fit=crop&q=80&w=800" alt="Modern Task Chair" referrerpolicy="no-referrer">
+        <img class="prod-img-back" src="https://images.unsplash.com/photo-1580480055273-228ff5388ef8?auto=format&fit=crop&q=80&w=800" alt="Modern Task Chair Hover" referrerpolicy="no-referrer">
+        <button class="prod-add" aria-label="Add to cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        </button>
+        <span class="prod-mat">Mesh</span>
+      </div>
+      <div class="prod-footer">
+        <div>
+          <div class="prod-cat">Office Chair</div>
+          <div class="prod-name">Modern Task Chair</div>
+        </div>
+        <div class="prod-price">EGP 4,199</div>
+      </div>
+    </div>
+
+    <div class="prod-card">
+      <div class="prod-img-wrap">
+        <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&q=80&w=800" alt="Nordic Accent Chair" referrerpolicy="no-referrer">
+        <img class="prod-img-back" src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&q=80&w=800" alt="Nordic Accent Chair Hover" referrerpolicy="no-referrer">
+        <button class="prod-add" aria-label="Add to cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        </button>
+        <span class="prod-mat">Fabric</span>
+      </div>
+      <div class="prod-footer">
+        <div>
+          <div class="prod-cat">Accent Chair</div>
+          <div class="prod-name">Nordic Accent Chair</div>
+        </div>
+        <div class="prod-price">EGP 3,299</div>
+      </div>
+    </div>
+
+    <div class="prod-card">
+      <div class="prod-img-wrap">
+        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&q=80&w=800" alt="Classic Wingback" referrerpolicy="no-referrer">
+        <img class="prod-img-back" src="https://images.unsplash.com/photo-1519947486511-46149fa0a254?auto=format&fit=crop&q=80&w=800" alt="Classic Wingback Hover" referrerpolicy="no-referrer">
+        <span class="prod-badge gold">Sale</span>
+        <button class="prod-add" aria-label="Add to cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        </button>
+        <span class="prod-mat">Leather</span>
+      </div>
+      <div class="prod-footer">
+        <div>
+          <div class="prod-cat">Accent Chair</div>
+          <div class="prod-name">Classic Wingback</div>
+        </div>
+        <div class="prod-price">EGP 6,999</div>
+      </div>
+    </div>
+
+    <div class="prod-card">
+      <div class="prod-img-wrap">
+        <img src="https://images.unsplash.com/photo-1581539250439-c96689b516dd?auto=format&fit=crop&q=80&w=800" alt="Pro Series Recliner" referrerpolicy="no-referrer">
+        <img class="prod-img-back" src="https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&q=80&w=800" alt="Pro Series Recliner Hover" referrerpolicy="no-referrer">
+        <button class="prod-add" aria-label="Add to cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        </button>
+        <span class="prod-mat">Leather</span>
+      </div>
+      <div class="prod-footer">
+        <div>
+          <div class="prod-cat">Lazy Boy</div>
+          <div class="prod-name">Pro Series Recliner</div>
+        </div>
+        <div class="prod-price">EGP 13,899</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════ ANATOMY / SHOWCASE ══════════════════ -->
+<section class="showcase" id="showcase">
+  <div>
+    <div class="showcase-eyebrow">Craftsmanship</div>
+    <h2 class="showcase-title">The Anatomy<br>of <em style="font-style:italic;color:var(--gold);">Comfort</em></h2>
+    <p class="showcase-body">
+      Every TipTop piece is engineered from the inside out. We combine traditional Egyptian upholstery craft with modern ergonomic science to create seating that lasts a lifetime. Hover the points to explore.
+    </p>
+    <div class="hot-list">
+      <div class="hot-item active" data-spot="0">
+        <div class="hot-item-title">Adaptive Headrest</div>
+        <div class="hot-item-desc">4-inch memory foam with cooling gel. Tilt, height, and width independently adjustable.</div>
+      </div>
+      <div class="hot-item" data-spot="1">
+        <div class="hot-item-title">Lumbar Support System</div>
+        <div class="hot-item-desc">Dual-zone air bladder lumbar. Dial-controlled inflation for your custom firmness level.</div>
+      </div>
+      <div class="hot-item" data-spot="2">
+        <div class="hot-item-title">Power Footrest</div>
+        <div class="hot-item-desc">Silent motor extends in 1.2 seconds. Infinite positions up to 190°. Battery backup included.</div>
+      </div>
+      <div class="hot-item" data-spot="3">
+        <div class="hot-item-title">Padded Armrests</div>
+        <div class="hot-item-desc">4-way adjustable aluminum-core armrests with 2-inch memory foam and anti-slip suede top.</div>
+      </div>
+    </div>
+  </div>
+  <div class="showcase-img">
+    <img src="https://images.unsplash.com/photo-1592078615290-033ee584e267?auto=format&fit=crop&q=80&w=1200" alt="Chair Anatomy" referrerpolicy="no-referrer">
+    <button class="hotspot-btn active" style="top:10%;left:54%;" data-spot="0">1</button>
+    <button class="hotspot-btn" style="top:43%;left:70%;" data-spot="1">2</button>
+    <button class="hotspot-btn" style="top:78%;left:18%;" data-spot="2">3</button>
+    <button class="hotspot-btn" style="top:58%;left:78%;" data-spot="3">4</button>
+  </div>
+</section>
+
+<!-- ══════════════════ LOOKBOOK ══════════════════ -->
+<section class="lookbook" id="gallery">
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">Shop The Look</div>
+      <h2 class="section-title">In Real<br>Homes</h2>
+    </div>
+    <a href="#" class="view-all">
+      Follow @TipTop
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><polyline points="9 18 15 12 9 6"/></svg>
+    </a>
+  </div>
+  <div class="look-grid">
+    <div class="look-card">
+      <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&q=80&w=900" alt="Living Room" referrerpolicy="no-referrer">
+      <div class="look-card-overlay"></div>
+      <div class="look-card-label">The Executive Recliner — Cognac</div>
+    </div>
+    <div class="look-card">
+      <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&q=80&w=800" alt="Accent Chair" referrerpolicy="no-referrer">
+      <div class="look-card-overlay"></div>
+      <div class="look-card-label">Classic Wingback</div>
+    </div>
+    <div class="look-card">
+      <img src="https://images.unsplash.com/photo-1505797149-43b0069ec26b?auto=format&fit=crop&q=80&w=800" alt="Office" referrerpolicy="no-referrer">
+      <div class="look-card-overlay"></div>
+      <div class="look-card-label">Modern Task Chair</div>
+    </div>
+    <div class="look-card">
+      <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&q=80&w=800" alt="Nordic Chair" referrerpolicy="no-referrer">
+      <div class="look-card-overlay"></div>
+      <div class="look-card-label">Nordic Accent Chair</div>
+    </div>
+    <div class="look-card">
+      <img src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&q=80&w=800" alt="Plants" referrerpolicy="no-referrer">
+      <div class="look-card-overlay"></div>
+      <div class="look-card-label">Botanical Accent Collection</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer class="footer" id="contact">
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">TIP<span>·</span>TOP</div>
+      <p class="footer-tagline">Crafting premium furniture that redefines the meaning of home comfort. Quality you can feel, design you can see. Est. 1980, Cairo.</p>
+      <div class="footer-socials">
+        <a class="footer-social" href="#" title="Instagram">IG</a>
+        <a class="footer-social" href="#" title="Facebook">FB</a>
+        <a class="footer-social" href="#" title="LinkedIn">LI</a>
+        <a class="footer-social" href="#" title="YouTube">YT</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Shop</div>
+      <ul class="footer-links">
+        <li><a href="#">Home Furniture</a></li>
+        <li><a href="#">Office Furniture</a></li>
+        <li><a href="#">Artificial Plants</a></li>
+        <li><a href="#">New Arrivals</a></li>
+        <li><a href="#">Sale</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#">Sustainability</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Projects</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Newsletter</div>
+      <p class="footer-newsletter-desc">Join our list for exclusive previews, design tips, and early access to sales.</p>
+      <div class="footer-form">
+        <input class="footer-input" type="email" placeholder="Your email address">
+        <button class="footer-submit" aria-label="Subscribe">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 TipTop Furniture. All rights reserved. Cairo · Alexandria · Giza</p>
+    <ul class="footer-legal">
+      <li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Terms of Service</a></li>
+      <li><a href="#">Shipping Policy</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+// ─── NAV SCROLL ───
+const nav=document.getElementById('mainNav');
+window.addEventListener('scroll',()=>{
+  nav.classList.toggle('scrolled',window.scrollY>60);
+});
+
+// ─── SEARCH ───
+function openSearch(){
+  document.getElementById('searchOverlay').classList.add('active');
+  setTimeout(()=>document.getElementById('searchInput').focus(),100);
+}
+function closeSearch(){
+  document.getElementById('searchOverlay').classList.remove('active');
+}
+document.getElementById('searchOverlay').addEventListener('click',function(e){
+  if(e.target===this)closeSearch();
+});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape')closeSearch();
+});
+
+// ─── MOBILE MENU ───
+function openMobMenu(){document.getElementById('mobMenu').classList.add('open');}
+function closeMobMenu(){document.getElementById('mobMenu').classList.remove('open');}
+
+// ─── SLIDER ───
+let current=0;const total=3;let autoTimer;
+function goSlide(idx){
+  document.getElementById('slide-'+current).classList.remove('active');
+  document.querySelectorAll('.slider-dot')[current].classList.remove('active');
+  current=(idx+total)%total;
+  document.getElementById('slide-'+current).classList.add('active');
+  document.querySelectorAll('.slider-dot')[current].classList.add('active');
+  document.getElementById('slideCounter').textContent='0'+(current+1)+' / 0'+total;
+  clearInterval(autoTimer);
+  autoTimer=setInterval(()=>goSlide(current+1),5000);
+}
+function nextSlide(){goSlide(current+1);}
+function prevSlide(){goSlide(current-1);}
+autoTimer=setInterval(()=>goSlide(current+1),5000);
+
+// ─── TOUCH SWIPE ───
+const heroEl=document.getElementById('hero');
+let touchStartX=0,touchStartY=0;
+heroEl.addEventListener('touchstart',e=>{
+  touchStartX=e.touches[0].clientX;
+  touchStartY=e.touches[0].clientY;
+},{passive:true});
+heroEl.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-touchStartX;
+  const dy=e.changedTouches[0].clientY-touchStartY;
+  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>40){
+    dx<0?nextSlide():prevSlide();
+  }
+},{passive:true});
+
+// ─── HOTSPOTS ───
+document.querySelectorAll('.hotspot-btn').forEach(btn=>{
+  btn.addEventListener('mouseenter',function(){
+    const idx=parseInt(this.dataset.spot);
+    document.querySelectorAll('.hotspot-btn').forEach(b=>{b.classList.remove('active');});
+    document.querySelectorAll('.hot-item').forEach(b=>{b.classList.remove('active');});
+    this.classList.add('active');
+    document.querySelector('.hot-item[data-spot="'+idx+'"]').classList.add('active');
+  });
+});
+document.querySelectorAll('.hot-item').forEach(item=>{
+  item.addEventListener('mouseenter',function(){
+    const idx=parseInt(this.dataset.spot);
+    document.querySelectorAll('.hotspot-btn').forEach(b=>{b.classList.remove('active');});
+    document.querySelectorAll('.hot-item').forEach(b=>{b.classList.remove('active');});
+    this.classList.add('active');
+    document.querySelector('.hotspot-btn[data-spot="'+idx+'"]').classList.add('active');
+  });
+});
+
+// ─── SCROLL REVEAL ───
+const revealItems=document.querySelectorAll('.prod-card,.feat,.look-card,.why-stat');
+revealItems.forEach(el=>{
+  el.style.opacity='0';el.style.transform='translateY(28px)';
+  el.style.transition='opacity 0.7s ease,transform 0.7s ease';
+});
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.style.opacity='1';e.target.style.transform='translateY(0)';
+    }
+  });
+},{threshold:0.12});
+revealItems.forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>

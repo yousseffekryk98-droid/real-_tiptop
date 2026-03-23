@@ -1,0 +1,124 @@
+{
+  "nav": {
+    "home": "Home",
+    "furniture": "Furniture & Decor",
+    "collection": "Collection",
+    "craftsmanship": "Craftsmanship",
+    "about": "About",
+    "contact": "Contact",
+    "search": "Search",
+    "cart": "Shopping Cart",
+    "admin": "Admin"
+  },
+  "hero": {
+    "eyebrow1": "Premium Living",
+    "headline1": "Exceptional Furniture for Your Space",
+    "subheading1": "Crafted with precision, designed for comfort. Elevate your home with TIPTOP's curated collection.",
+    "cta": "Shop Now",
+    "eyebrow2": "Office Excellence",
+    "headline2": "Workspace Reimagined",
+    "subheading2": "Create an inspiring work environment with ergonomic designs and premium materials.",
+    "eyebrow3": "Green Living",
+    "headline3": "Nature Meets Design",
+    "subheading3": "Bring life to your spaces with our sustainable collection of artificial plants."
+  },
+  "marquee": {
+    "item1": "Premium Craftsmanship",
+    "item2": "Home Furniture",
+    "item3": "Office Seating",
+    "item4": "Artificial Plants",
+    "item5": "Nordic Design",
+    "item6": "Ergonomic Comfort",
+    "item7": "Est. 1980 · Cairo"
+  },
+  "categories": {
+    "eyebrow": "Collections",
+    "number1": "01",
+    "title1": "Home Furniture",
+    "explore": "Explore",
+    "number2": "02",
+    "title2": "Office Furniture",
+    "number3": "03",
+    "title3": "Artificial Plants"
+  },
+  "features": {
+    "feature1Title": "Premium Quality",
+    "feature1Desc": "Handcrafted with finest materials",
+    "feature2Title": "Fast Delivery",
+    "feature2Desc": "Nationwide shipping available",
+    "feature3Title": "Expert Support",
+    "feature3Desc": "24/7 customer service",
+    "feature4Title": "Easy Returns",
+    "feature4Desc": "30-day satisfaction guarantee"
+  },
+  "about": {
+    "eyebrow": "Our Story",
+    "title": "Crafted for Living",
+    "body": "Since 1980, TIPTOP has been delivering exceptional furniture and decor that transforms spaces into sanctuaries. Our commitment to quality, sustainability, and customer satisfaction defines every piece.",
+    "stat1Value": "40+",
+    "stat1Label": "Years of Craftsmanship",
+    "stat2Value": "50K+",
+    "stat2Label": "Happy Customers",
+    "stat3Value": "1000+",
+    "stat3Label": "Products Available",
+    "stat4Value": "99%",
+    "stat4Label": "Customer Satisfaction",
+    "cta": "Learn More"
+  },
+  "showcase": {
+    "eyebrow": "Featured Details",
+    "title": "Discover Innovation",
+    "body": "Explore the innovative features that make our products stand out in the market.",
+    "spot1Title": "Premium Materials",
+    "spot1Desc": "Sourced from the finest suppliers worldwide",
+    "spot2Title": "Ergonomic Design",
+    "spot2Desc": "Engineered for comfort and functionality",
+    "spot3Title": "Sustainable",
+    "spot3Desc": "Eco-friendly production methods",
+    "spot4Title": "Warranty",
+    "spot4Desc": "Comprehensive coverage included"
+  },
+  "bestsellers": {
+    "eyebrow": "Best Sellers",
+    "title": "Customer Favorites",
+    "viewAll": "View All Products"
+  },
+  "lookbook": {
+    "eyebrow": "Inspiration",
+    "title": "Life in Style",
+    "cta": "Browse Gallery",
+    "label1": "Living Room",
+    "label2": "Bedroom Oasis",
+    "label3": "Office Haven",
+    "label4": "Plant Paradise",
+    "label5": "Modern Minimalist"
+  },
+  "footer": {
+    "tagline": "Premium furniture and decor since 1980. Transforming spaces, inspiring lives.",
+    "shopTitle": "Shop",
+    "shopLink1": "All Products",
+    "shopLink2": "New Arrivals",
+    "shopLink3": "Sale",
+    "shopLink4": "Best Sellers",
+    "companyTitle": "Company",
+    "companyLink1": "About Us",
+    "companyLink2": "Our Mission",
+    "companyLink3": "Sustainability",
+    "companyLink4": "Blog",
+    "newsTitle": "Newsletter",
+    "newsDesc": "Subscribe to get special offers and updates.",
+    "emailPlaceholder": "Your email address",
+    "copyright": "© 2024 TIPTOP. All rights reserved.",
+    "legal1": "Privacy Policy",
+    "legal2": "Terms of Service",
+    "legal3": "Cookie Policy"
+  },
+  "search": {
+    "placeholder": "What are you looking for?",
+    "tag1": "Sofas",
+    "tag2": "Chairs",
+    "tag3": "Tables",
+    "tag4": "Decor",
+    "tag5": "Plants"
+  }
+}
