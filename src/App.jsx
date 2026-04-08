@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useTranslation } from "./contexts/I18nContext";
 import { T, AF } from "./config/tokens";
 import { INITIAL_PRODUCTS } from "./config/constants";
@@ -7,11 +7,13 @@ import { FontLink } from "./components/shared/UI";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { DashboardPage } from "./pages/DashboardPage";
 import { CatalogPage } from "./pages/CatalogPage";
+import { ExplorePage } from "./pages/ExplorePage";
 import { AddProductPage } from "./pages/AddProductPage";
 import { CheckoutPanel } from "./pages/CheckoutPage";
 import { OrdersPage } from "./pages/OrdersPage";
 import { LandingPage } from "./pages/LandingPage";
 import { LandingPageEditor } from "./components/LandingPageEditor";
+import { ThemeSettings } from "./components/settings/ThemeSettings";
 
 export function AppInner({ onLogout }) {
   const { t, lang, isRTL, changeLanguage } = useTranslation();
@@ -20,6 +22,8 @@ export function AppInner({ onLogout }) {
 
   const [page, setPage] = useState("dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [expandedCategories, setExpandedCategories] = useState(false);
   const [products, setProducts] = useState(
     INITIAL_PRODUCTS.map((p) => ({
       ...p,
@@ -27,8 +31,18 @@ export function AppInner({ onLogout }) {
     }))
   );
 
+  // Derive unique categories from products
+  const uniqueCategories = useMemo(() => {
+    const cats = new Set();
+    products.forEach(p => {
+      if (p.cat) cats.add(p.cat);
+    });
+    return Array.from(cats).sort();
+  }, [products]);
+
   const NAV = [
     { id: "dashboard", label: t("nav.dashboard"), icon: "▦", group: "main" },
+    { id: "explore", label: t("nav.explore") || "Explore", icon: "🔍", group: "main" },
     { id: "catalog", label: t("nav.catalog"), icon: "◈", group: "main" },
     { id: "add", label: t("nav.add"), icon: "⊕", group: "main" },
     { id: "landing", label: t("nav.landing"), icon: "🌐", group: "main" },
@@ -136,55 +150,125 @@ export function AppInner({ onLogout }) {
                 </div>
                 {items.map((item) => {
                   const active = page === item.id;
+                  const isCategoryMenu = item.id === "explore";
+                  
                   return (
-                    <div
-                      key={item.id}
-                      onClick={() => setPage(item.id)}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.52rem",
-                        padding: "0.54rem 1.05rem",
-                        cursor: "pointer",
-                        borderLeft: isRTL ? "none" : `2px solid ${active ? T.gold : "transparent"}`,
-                        borderRight: isRTL ? `2px solid ${active ? T.gold : "transparent"}` : "none",
-                        background: active ? T.goldDim : "transparent",
-                        transition: "all .18s"
-                      }}
-                    >
-                      <span
+                    <div key={item.id}>
+                      <div
+                        onClick={() => {
+                          if (isCategoryMenu) {
+                            setExpandedCategories(!expandedCategories);
+                            setPage(item.id);
+                          } else {
+                            setPage(item.id);
+                            setSelectedCategory(null);
+                          }
+                        }}
                         style={{
-                          fontSize: "0.82rem",
-                          color: active ? T.gold : T.mutedLight,
-                          flexShrink: 0
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "0.52rem",
+                          padding: "0.54rem 1.05rem",
+                          cursor: "pointer",
+                          borderLeft: isRTL ? "none" : `2px solid ${active ? T.gold : "transparent"}`,
+                          borderRight: isRTL ? `2px solid ${active ? T.gold : "transparent"}` : "none",
+                          background: active ? T.goldDim : "transparent",
+                          transition: "all .18s"
                         }}
                       >
-                        {item.icon}
-                      </span>
-                      <span
-                        style={{
-                          fontSize: "0.67rem",
-                          fontWeight: active ? 600 : 400,
-                          color: active ? T.goldBright : T.charcoal,
-                          flex: 1,
-                          fontFamily: af
-                        }}
-                      >
-                        {item.label}
-                      </span>
-                      {item.badge && (
                         <span
                           style={{
-                            background: T.red,
-                            color: "#fff",
-                            fontSize: "0.47rem",
-                            fontWeight: 700,
-                            padding: "1px 5px",
-                            borderRadius: 20
+                            fontSize: "0.82rem",
+                            color: active ? T.gold : T.mutedLight,
+                            flexShrink: 0
                           }}
                         >
-                          {item.badge}
+                          {item.icon}
                         </span>
+                        <span
+                          style={{
+                            fontSize: "0.67rem",
+                            fontWeight: active ? 600 : 400,
+                            color: active ? T.goldBright : T.charcoal,
+                            flex: 1,
+                            fontFamily: af
+                          }}
+                        >
+                          {item.label}
+                        </span>
+                        {isCategoryMenu && (
+                          <span
+                            style={{
+                              fontSize: "0.6rem",
+                              color: T.muted,
+                              transition: "transform 0.2s"
+                            }}
+                          >
+                            {expandedCategories ? "▼" : "▶"}
+                          </span>
+                        )}
+                        {item.badge && (
+                          <span
+                            style={{
+                              background: T.red,
+                              color: "#fff",
+                              fontSize: "0.47rem",
+                              fontWeight: 700,
+                              padding: "1px 5px",
+                              borderRadius: 20
+                            }}
+                          >
+                            {item.badge}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Category Submenu */}
+                      {isCategoryMenu && expandedCategories && (
+                        <div
+                          style={{
+                            maxHeight: "200px",
+                            overflow: "auto",
+                            animation: "slideInDown 0.2s ease",
+                            background: T.bg
+                          }}
+                        >
+                          {uniqueCategories.map((cat) => (
+                            <div
+                              key={cat}
+                              onClick={() => {
+                                setPage("explore");
+                                setSelectedCategory(cat);
+                              }}
+                              style={{
+                                padding: "0.4rem 1.05rem 0.4rem 1.6rem",
+                                fontSize: "0.65rem",
+                                color: selectedCategory === cat ? T.gold : T.charcoal,
+                                fontWeight: selectedCategory === cat ? 600 : 400,
+                                cursor: "pointer",
+                                background: selectedCategory === cat ? T.goldDim : "transparent",
+                                borderLeft: isRTL ? "none" : `2px solid ${selectedCategory === cat ? T.gold : "transparent"}`,
+                                borderRight: isRTL ? `2px solid ${selectedCategory === cat ? T.gold : "transparent"}` : "none",
+                                transition: "all 0.15s",
+                                fontFamily: af
+                              }}
+                              onMouseEnter={(e) => {
+                                if (selectedCategory !== cat) {
+                                  e.currentTarget.style.background = T.goldDim;
+                                  e.currentTarget.style.color = T.gold;
+                                }
+                              }}
+                              onMouseLeave={(e) => {
+                                if (selectedCategory !== cat) {
+                                  e.currentTarget.style.background = "transparent";
+                                  e.currentTarget.style.color = T.charcoal;
+                                }
+                              }}
+                            >
+                              📦 {cat}
+                            </div>
+                          ))}
+                        </div>
                       )}
                     </div>
                   );
@@ -428,6 +512,7 @@ export function AppInner({ onLogout }) {
             <div style={{ flex: 1, overflow: "hidden", display: "flex", flexDirection: "column" }}>
               <ErrorBoundary>
                 {page === "dashboard" && <DashboardPage products={products} />}
+                {page === "explore" && <ExplorePage products={products} initialCategory={selectedCategory} />}
                 {page === "catalog" && (
                   <CatalogPage products={products} setProducts={setProducts} />
                 )}
@@ -436,41 +521,10 @@ export function AppInner({ onLogout }) {
                 {page === "orders" && <OrdersPage />}
                 {page === "checkout" && <CheckoutPanel products={products} />}
                 {page === "settings" && (
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flex: 1
-                    }}
-                  >
-                    <div style={{ textAlign: "center", color: T.muted }}>
-                      <div style={{ fontSize: "2.4rem", opacity: 0.18, marginBottom: "0.75rem" }}>
-                        🏗️
-                      </div>
-                      <div
-                        style={{
-                          fontFamily: isRTL ? AF : T.serif,
-                        fontSize: "1.08rem",
-                        color: T.black,
-                        marginBottom: 4
-                      }}
-                    >
-                      {NAV.find((n) => n.id === page)?.label}
-                    </div>
-                    <div
-                      style={{
-                        fontSize: "0.7rem",
-                        fontFamily: af,
-                        maxWidth: 340,
-                        lineHeight: 1.75
-                      }}
-                    >
-                      {t("coming")}
-                    </div>
+                  <div style={{ flex: 1, overflow: "auto", maxWidth: "600px" }}>
+                    <ThemeSettings />
                   </div>
-                </div>
-              )}
+                )}
               </ErrorBoundary>
             </div>
           </div>
