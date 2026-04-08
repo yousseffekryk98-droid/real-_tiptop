@@ -5,7 +5,6 @@ package-lock.json
 # Build output
 dist/
 .vercel
-vercel.json
 
 # Environment
 .env
