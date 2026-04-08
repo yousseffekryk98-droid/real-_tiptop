@@ -1,10 +1,12 @@
 [build]
-  command = "npm ci --legacy-peer-deps && npm run build"
+  base = "."
+  command = "npm run build"
   publish = "dist"
+  functions = "netlify/functions"
 
 [build.environment]
   NODE_VERSION = "18"
-  CI = "true"
+  NPM_VERSION = "10"
 
 [[redirects]]
   from = "/*"
